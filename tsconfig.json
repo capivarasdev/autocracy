@@ -1,4 +1,10 @@
 {
+    "ts-node": {
+        // Do not forget to `npm i -D tsconfig-paths`
+        "require": [
+            "tsconfig-paths/register"
+        ]
+    },
     "compilerOptions": {
         "target": "ESNext",
         "module": "commonjs",
@@ -17,11 +23,34 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "sourceMap": false,
-        "baseUrl": "./"
+        "sourceMap": true,
+        "baseUrl": "./",
+        "paths": {
+            "src/*": [
+                "./src/*"
+            ],
+            "@commands/*": [
+                "src/services/commands/*"
+            ],
+            "@events/*": [
+                "src/services/events/*"
+            ],
+            "@interfaces/*": [
+                "src/domain/interfaces/*"
+            ],
+            "@config/*": [
+                "./config/*"
+            ],
+            "@domain/*": [
+                "src/domain/*"
+            ],
+            "@services/*": [
+                "src/services/*"
+            ],
+        },
     },
     "files": [
-        "src/Bot.ts"
+        "src/index.ts"
     ],
     "include": [
         "./**/*.ts"
