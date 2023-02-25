@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
-import { Bot } from '@domain/bot';
-import { Execute } from '@domain/interfaces/command.interface';
+import { Bot } from '../../domain/bot';
+import { Execute } from '../../domain/interfaces/command.interface';
 
 export const name = 'ping';
 export const description = 'This is a description';

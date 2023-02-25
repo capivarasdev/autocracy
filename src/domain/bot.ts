@@ -1,13 +1,12 @@
 import { Client, ClientOptions, Collection, IntentsBitField } from 'discord.js';
-import { Command } from '@interfaces/command.interface';
-import { Event } from '@interfaces/event.interface';
-import { ConfigLoader } from '@interfaces/configLoader.interface';
+import { Command } from './interfaces/command.interface';
+import { Config } from './interfaces/config.interface';
+import { ConfigLoader } from './interfaces/configLoader.interface';
 import CommandsLoader from './loaders/commands.loader';
-import EventsLoader from './loaders/events.loader';
-import { Logger } from './loggers/logger';
 import { ConfigJSONLoader } from './loaders/configJson.loader';
-import { consoleLogger } from './loggers/console.logger';
-import { Config } from '@interfaces/config.interface';
+import EventsLoader from './loaders/events.loader';
+import { ConsoleLogger } from './loggers/console.logger';
+import { Logger } from './loggers/logger';
 
 const botOptions: ClientOptions = {
     intents: [
@@ -50,7 +49,7 @@ class Bot extends Client {
     public config = {} as Config;
     private readonly configLoader: ConfigLoader = new ConfigJSONLoader();
 
-    public readonly logger: Logger = new consoleLogger();
+    public readonly logger: Logger = new ConsoleLogger();
 
     public commands: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
@@ -96,3 +95,4 @@ class Bot extends Client {
     // }
 }
 export { Bot };
+

@@ -1,8 +1,8 @@
-import { ConfigLoader } from '@interfaces/configLoader.interface';
 import fs from 'fs';
+import { Config } from '../../domain/interfaces/config.interface';
+import { ConfigLoader } from '../../domain/interfaces/configLoader.interface';
 // import { replace } from 'replace-json-property';
 import { join } from 'path';
-import { Config } from '@interfaces/config.interface';
 
 export class ConfigJSONLoader implements ConfigLoader {
     private readonly configPath: string = join(
