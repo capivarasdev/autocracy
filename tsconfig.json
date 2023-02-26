@@ -24,30 +24,6 @@
             "node_modules/@types"
         ],
         "sourceMap": true,
-        "baseUrl": "./",
-        "paths": {
-            "src/*": [
-                "./src/*"
-            ],
-            "@commands/*": [
-                "src/services/commands/*"
-            ],
-            "@events/*": [
-                "src/services/events/*"
-            ],
-            "@interfaces/*": [
-                "src/domain/interfaces/*"
-            ],
-            "@config/*": [
-                "./config/*"
-            ],
-            "@domain/*": [
-                "src/domain/*"
-            ],
-            "@services/*": [
-                "src/services/*"
-            ],
-        },
     },
     "files": [
         "src/index.ts"

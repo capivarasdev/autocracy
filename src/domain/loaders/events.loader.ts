@@ -1,9 +1,9 @@
 import fs from 'fs';
 import { join } from 'path';
+import ServiceLoader from '../../domain/interfaces/serviceLoader.interface';
 
+import { EVENTS_FOLDER_PATH } from '../../constants';
 import { Bot } from '../bot';
-import { EVENTS_FOLDER_PATH } from 'src/contants';
-import ServiceLoader from '@interfaces/serviceLoader.interface';
 
 class EventsLoader implements ServiceLoader {
     public readonly dirname: string;
@@ -17,7 +17,7 @@ class EventsLoader implements ServiceLoader {
         const directory: string = join(this.dirname, this.target);
         const eventFiles: string[] = fs
             .readdirSync(directory)
-            .filter((file) => file.endsWith('.ts'));
+            .filter((file) => file.endsWith('.ts') || file.endsWith('.js'));
         for (const file of eventFiles) {
             const event = require(`${directory}/${file}`);
             bot.events.set(event.name, event);

@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
-import { Command } from '@domain/interfaces/command.interface';
-import { Execute } from '@domain/interfaces/event.interface';
+import { Command } from '../../domain/interfaces/command.interface';
+import { Execute } from '../../domain/interfaces/event.interface';
 
 export const name = 'CommandHandler';
 export const trigger = 'messageCreate';
