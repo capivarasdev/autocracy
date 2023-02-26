@@ -1,0 +1,22 @@
+# npm
+node_modules/
+
+# secrets
+.env
+.env.local
+
+# build
+build/
+
+# db
+*.sqlite
+objects/
+snapshot*.txt
+/data/
+
+# logs
+logs/
+*.log
+
+# other
+tests/
