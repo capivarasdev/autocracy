@@ -30,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/escapesystem
+          images: ${{ secrets.DOCKER_ORGANIZATION_NAME }}/autocracy
           tags: |
               type=ref,event=branch
               type=ref,event=pr
