@@ -1,4 +1,4 @@
-name: Release and publish Docker image
+name: Release and Deploy
 
 on:
   push:
@@ -53,3 +53,20 @@ jobs:
           
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH Commands
+        uses: appleboy/ssh-action@master
+        env:
+          PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
+        with:
+          host: ${{ secrets.IP }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          envs: PROJECT_PATH
+          script: |
+            sudo docker compose pull && sudo docker compose up -d
