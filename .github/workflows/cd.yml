@@ -63,9 +63,9 @@ jobs:
         env:
           PROJECT_PATH: ${{ secrets.PROJECT_PATH }}
         with:
-          host: ${{ secrets.IP }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.PORT }}
           envs: PROJECT_PATH
           script: |
