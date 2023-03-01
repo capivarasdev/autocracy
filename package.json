@@ -20,6 +20,8 @@
     "migration:up": "npx mikro-orm migration:up",
     "migration:down": "npx mikro-orm migration:down",
     "plugins:install": "installoop --rootDir=./src/plugins",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "postinstall": "npm run plugins:install"
   },
   "dependencies": {
