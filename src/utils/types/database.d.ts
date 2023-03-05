@@ -1,7 +1,7 @@
 type DatabaseSize = {
     db: number | null,
     backups: number | null
-}
+};
 
 type DatabaseConfigs = {
     'sqlite': {
@@ -28,7 +28,7 @@ type DatabaseConfigs = {
         driver: import('@mikro-orm/mongodb').MongoDriver,
         entityManager: import('@mikro-orm/mongodb').MongoEntityManager,
     }
-}
+};
 
-type DatabaseDriver = DatabaseConfigs[typeof import('@config').databaseType]['driver']
-type DatabaseEntityManager = DatabaseConfigs[typeof import('@config').databaseType]['entityManager']
+type DatabaseDriver = DatabaseConfigs[typeof import('@config').databaseType]['driver'];
+type DatabaseEntityManager = DatabaseConfigs[typeof import('@config').databaseType]['entityManager'];

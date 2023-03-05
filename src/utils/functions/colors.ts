@@ -1,6 +1,6 @@
-import { ColorResolvable } from "discord.js"
+import { ColorResolvable } from "discord.js";
 
-import { colorsConfig } from "@config"
+import { colorsConfig } from "@config";
 
 /**
  * Get a color from the config
@@ -9,5 +9,5 @@ import { colorsConfig } from "@config"
  */
 export const getColor = (colorResolver: keyof typeof colorsConfig) => {
 
-    return colorsConfig[colorResolver] as ColorResolvable
-}
+    return colorsConfig[colorResolver] as ColorResolvable;
+};

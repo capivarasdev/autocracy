@@ -1,12 +1,12 @@
-import { generalConfig } from "@config"
+import { generalConfig } from "@config";
 
 /**
  * Get a curated list of devs including the owner id
  */
 export const getDevs = (): string[] => {
 
-    return [...new Set([...generalConfig.devs, generalConfig.ownerId])]
-}
+    return [...new Set([...generalConfig.devs, generalConfig.ownerId])];
+};
 
 /**
  * Check if a given user is a dev with its ID
@@ -14,5 +14,5 @@ export const getDevs = (): string[] => {
  */
 export const isDev = (id: string): boolean => {
 
-    return getDevs().includes(id)
-}
+    return getDevs().includes(id);
+};

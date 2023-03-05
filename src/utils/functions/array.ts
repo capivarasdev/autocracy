@@ -5,10 +5,10 @@
  */
 export const chunkArray = <T>(array: T[], chunkSize: number = 2): T[][] => {
 
-    const newArray: T[][] = []
+    const newArray: T[][] = [];
     for (let i = 0; i < array.length; i += chunkSize) {
-        newArray.push(array.slice(i, i + chunkSize))
+        newArray.push(array.slice(i, i + chunkSize));
     }
 
-    return newArray
-}
+    return newArray;
+};

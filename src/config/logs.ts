@@ -42,4 +42,4 @@ export const logsConfig: LogsConfigType = {
         console: true,
         channel: null
     }
-}
+};

@@ -1,21 +1,21 @@
-import dayjs from "dayjs"
-import dayjsTimeZone from "dayjs/plugin/timezone"
-import dayjsUTC from "dayjs/plugin/utc"
+import dayjs from "dayjs";
+import dayjsTimeZone from "dayjs/plugin/timezone";
+import dayjsUTC from "dayjs/plugin/utc";
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@config";
 
-dayjs.extend(dayjsUTC)
-dayjs.extend(dayjsTimeZone)
+dayjs.extend(dayjsUTC);
+dayjs.extend(dayjsTimeZone);
 
-dayjs.tz.setDefault(generalConfig.timezone)
+dayjs.tz.setDefault(generalConfig.timezone);
 
-export const datejs = dayjs.tz
+export const datejs = dayjs.tz;
 
 const dateMasks = {
     default: 'DD/MM/YYYY - HH:mm:ss',
     onlyDate: 'DD/MM/YYYY',
     onlyDateFileName: 'YYYY-MM-DD' 
-}
+};
 
 /**
  * Format a date object to a templated string using the [date-and-time](https://www.npmjs.com/package/date-and-time) library.
@@ -25,10 +25,10 @@ const dateMasks = {
  */
 export const formatDate = (date: Date, mask: keyof typeof dateMasks = 'default') => {
 
-    return datejs(date).format(dateMasks[mask])
-}
+    return datejs(date).format(dateMasks[mask]);
+};
 
 export const timeAgo = (date: Date) => {
     
-    return dayjs(date).fromNow()
-}
+    return dayjs(date).fromNow();
+};

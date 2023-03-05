@@ -1,4 +1,4 @@
-import type { ArgsOf, GuardFunction } from "discordx"
+import type { ArgsOf, GuardFunction } from "discordx";
   
 /**
  * Pass only when the message match with a passed regular expression
@@ -7,11 +7,11 @@ import type { ArgsOf, GuardFunction } from "discordx"
 export const Match = (regex: RegExp) => {
 
     const guard: GuardFunction<
-        | ArgsOf<"messageCreate">
+    | ArgsOf<"messageCreate">
     > = async ([message], client, next) => {
         
-        if (message.content.match(regex)) next()
-    }
+        if (message.content.match(regex)) next();
+    };
 
-    return guard
-}
+    return guard;
+};

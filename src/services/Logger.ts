@@ -1,17 +1,17 @@
-import boxen from "boxen"
-import { constant } from "case"
-import chalk from "chalk"
-import { BaseMessageOptions, TextChannel, ThreadChannel, User } from "discord.js"
-import { Client, MetadataStorage } from "discordx"
-import fs from "fs"
-import ora from "ora"
-import { parse, StackFrame } from "stacktrace-parser"
-import { delay, inject, singleton } from "tsyringe"
+import boxen from "boxen";
+import { constant } from "case";
+import chalk from "chalk";
+import { BaseMessageOptions, TextChannel, ThreadChannel, User } from "discord.js";
+import { Client, MetadataStorage } from "discordx";
+import fs from "fs";
+import ora from "ora";
+import { parse, StackFrame } from "stacktrace-parser";
+import { delay, inject, singleton } from "tsyringe";
 
-import * as controllers from "@api/controllers"
-import { apiConfig, logsConfig } from "@config"
-import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services"
-import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions"
+import * as controllers from "@api/controllers";
+import { apiConfig, logsConfig } from "@config";
+import { Pastebin, PluginsManager, Scheduler, WebSocket } from "@services";
+import { fileOrDirectoryExists, formatDate, getTypeOfInteraction, numberAlign, oneLine, resolveAction, resolveChannel, resolveDependency, resolveGuild, resolveUser, validString } from "@utils/functions";
 
 @singleton()
 export class Logger {
@@ -23,29 +23,29 @@ export class Logger {
         @inject(delay(() => Pastebin)) private pastebin: Pastebin,
         @inject(delay(() => PluginsManager)) private pluginsManager: PluginsManager
     ) {
-        this.defaultConsole = { ...console }
-        console.info    = (...args) => this.log(args.join(", "), 'info')
-        console.warn    = (...args) => this.log(args.join(", "), 'warn')
-        console.error   = (...args) => this.log(args.join(", "), 'error')
+        this.defaultConsole = { ...console };
+        console.info    = (...args) => this.log(args.join(", "), 'info');
+        console.warn    = (...args) => this.log(args.join(", "), 'warn');
+        console.error   = (...args) => this.log(args.join(", "), 'error');
     }
 
-    private readonly logPath: string = `${__dirname}/../../logs`
-    private readonly levels = ['info', 'warn', 'error'] as const
+    private readonly logPath: string = `${__dirname}/../../logs`;
+    private readonly levels = ['info', 'warn', 'error'] as const;
     private embedLevelBuilder = {
         info:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "INFO",  description: message, color: 0x007fe7, timestamp: new Date().toISOString() }] }),
         warn:  (message: string): BaseMessageOptions => ({ embeds: [{ title: "WARN",  description: message, color: 0xf37100, timestamp: new Date().toISOString() }] }),
-        error: (message: string): BaseMessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] }),
-    }
+        error: (message: string): BaseMessageOptions => ({ embeds: [{ title: "ERROR", description: message, color: 0x7C1715, timestamp: new Date().toISOString() }] })
+    };
     private interactionTypeReadable: { [key in InteractionsConstants]: string } = {
         "CHAT_INPUT_COMMAND_INTERACTION": "Slash command",
         "SIMPLE_COMMAND_MESSAGE": "Simple command",
         "CONTEXT_MENU_INTERACTION": "Context menu",
         "BUTTON_INTERACTION": "Button",
         "SELECT_MENU_INTERACTION": "Select menu",
-        "MODAL_SUBMIT_INTERACTION": "Modal submit",
-    }
-    private spinner = ora()
-    private defaultConsole: typeof console
+        "MODAL_SUBMIT_INTERACTION": "Modal submit"
+    };
+    private spinner = ora();
+    private defaultConsole: typeof console;
 
     // =================================
     // ======== Output Providers =======
@@ -59,16 +59,16 @@ export class Logger {
      */
     console(message: string, level: typeof this.levels[number] = 'info', ignoreTemplate = false) {
 
-        if (this.spinner.isSpinning) this.spinner.stop()
+        if (this.spinner.isSpinning) this.spinner.stop();
 
-        if (!validString(message)) return
+        if (!validString(message)) return;
 
-        let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`
-        if (level === 'error') templatedMessage = chalk.red(templatedMessage)
+        let templatedMessage = ignoreTemplate ? message : `${level} [${chalk.dim.gray(formatDate(new Date()))}] ${message}`;
+        if (level === 'error') templatedMessage = chalk.red(templatedMessage);
         
-        this.defaultConsole[level](templatedMessage)
+        this.defaultConsole[level](templatedMessage);
 
-        this.websocket(level, message)
+        this.websocket(level, message);
     }
 
     /**
@@ -78,18 +78,18 @@ export class Logger {
      */
     file(message: string, level: typeof this.levels[number] = 'info') {
 
-        if (!validString(message)) return
+        if (!validString(message)) return;
 
-        const templatedMessage = `[${formatDate(new Date())}] ${message}`
+        const templatedMessage = `[${formatDate(new Date())}] ${message}`;
 
-        const fileName = `${this.logPath}/${level}.log`
+        const fileName = `${this.logPath}/${level}.log`;
 
         // create the folder if it doesn't exist
-        if (!fileOrDirectoryExists(this.logPath)) fs.mkdirSync(this.logPath)
+        if (!fileOrDirectoryExists(this.logPath)) fs.mkdirSync(this.logPath);
         // create file if it doesn't exist
-        if (!fileOrDirectoryExists(fileName)) fs.writeFileSync(fileName, '')
+        if (!fileOrDirectoryExists(fileName)) fs.writeFileSync(fileName, '');
 
-        fs.appendFileSync(fileName, `${templatedMessage}\n`)
+        fs.appendFileSync(fileName, `${templatedMessage}\n`);
     }
 
     /**
@@ -100,9 +100,9 @@ export class Logger {
      */
     async discordChannel(channelId: string, message: string | BaseMessageOptions, level?: typeof this.levels[number]) {
         
-        if (!this.client.token) return
+        if (!this.client.token) return;
         
-        const channel = await this.client.channels.fetch(channelId).catch(() => null)
+        const channel = await this.client.channels.fetch(channelId).catch(() => null);
         
         if (
             channel && 
@@ -110,9 +110,9 @@ export class Logger {
             || channel instanceof ThreadChannel )
         ) {
 
-            if (typeof message !== 'string') return channel.send(message).catch(console.error)
+            if (typeof message !== 'string') return channel.send(message).catch(console.error);
 
-            channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error)
+            channel.send(this.embedLevelBuilder[level ?? 'info'](message)).catch(console.error);
         }
     }
 
@@ -122,7 +122,7 @@ export class Logger {
         this.ws.broadcast('log', { 
             level, 
             message: message 
-        })
+        });
     }
 
     // =================================
@@ -143,16 +143,16 @@ export class Logger {
         channelId: string | null = null
     ) {
 
-        if (message === '') return
+        if (message === '') return;
         
         // log in the console
-        this.console(message, level)
+        this.console(message, level);
         
         // save log to file
-        if (saveToFile) this.file(message, level)
+        if (saveToFile) this.file(message, level);
 
         // send to discord channel
-        if (channelId) this.discordChannel(channelId, message, level)
+        if (channelId) this.discordChannel(channelId, message, level);
     }
 
     // =================================
@@ -165,13 +165,13 @@ export class Logger {
      */
     logInteraction(interaction: AllInteractions) {
 
-        const type = constant(getTypeOfInteraction(interaction)) as InteractionsConstants
-        if (logsConfig.interaction.exclude.includes(type)) return
+        const type = constant(getTypeOfInteraction(interaction)) as InteractionsConstants;
+        if (logsConfig.interaction.exclude.includes(type)) return;
 
-        const action = resolveAction(interaction)
-        const channel = resolveChannel(interaction)
-        const guild = resolveGuild(interaction)
-        const user = resolveUser(interaction)
+        const action = resolveAction(interaction);
+        const channel = resolveChannel(interaction);
+        const guild = resolveGuild(interaction);
+        const user = resolveUser(interaction);
 
         const message = oneLine`
             (${type})
@@ -179,27 +179,27 @@ export class Logger {
             ${channel instanceof TextChannel || channel instanceof ThreadChannel ? `in channel #${channel.name}`: ''}
             ${guild ? `in guild ${guild.name}`: ''}
             ${user ? `by ${user.username}#${user.discriminator}`: ''}
-        `
+        `;
 
         const chalkedMessage = oneLine`
             (${chalk.bold.white(type)})
             "${chalk.bold.green(action)}"
             ${channel instanceof TextChannel || channel instanceof ThreadChannel ? 
-                `${chalk.dim.italic.gray('in channel')} ${chalk.bold.blue(`#${channel.name}`)}`
-                : ''
-            }
+        `${chalk.dim.italic.gray('in channel')} ${chalk.bold.blue(`#${channel.name}`)}`
+        : ''
+}
             ${guild ? 
-                `${chalk.dim.italic.gray('in guild')} ${chalk.bold.blue(`${guild.name}`)}`
-                : ''
-            }
+        `${chalk.dim.italic.gray('in guild')} ${chalk.bold.blue(`${guild.name}`)}`
+        : ''
+}
             ${user ? 
-                `${chalk.dim.italic.gray('by')} ${chalk.bold.blue(`${user.username}#${user.discriminator}`)}`
-                : ''
-            }
-        `
+        `${chalk.dim.italic.gray('by')} ${chalk.bold.blue(`${user.username}#${user.discriminator}`)}`
+        : ''
+}
+        `;
 
-        if (logsConfig.interaction.console) this.console(chalkedMessage)
-        if (logsConfig.interaction.file) this.file(message)
+        if (logsConfig.interaction.console) this.console(chalkedMessage);
+        if (logsConfig.interaction.file) this.file(message);
         if (logsConfig.interaction.channel) this.discordChannel(logsConfig.interaction.channel, {
             embeds: [{
                 author: {
@@ -245,7 +245,7 @@ export class Logger {
                 color: 0xdb5c21,
                 timestamp: new Date().toISOString()
             }]
-        })
+        });
     }
 
     /**
@@ -254,11 +254,11 @@ export class Logger {
      */
     logNewUser(user: User) {
 
-        const message = `(NEW_USER) ${user.tag} (${user.id}) has been added to the db`
-        const chalkedMessage = `(${chalk.bold.white('NEW_USER')}) ${chalk.bold.green(user.tag)} (${chalk.bold.blue(user.id)}) ${chalk.dim.italic.gray('has been added to the db')}`
+        const message = `(NEW_USER) ${user.tag} (${user.id}) has been added to the db`;
+        const chalkedMessage = `(${chalk.bold.white('NEW_USER')}) ${chalk.bold.green(user.tag)} (${chalk.bold.blue(user.id)}) ${chalk.dim.italic.gray('has been added to the db')}`;
 
-        if (logsConfig.newUser.console) this.console(chalkedMessage)
-        if (logsConfig.newUser.file) this.file(message)
+        if (logsConfig.newUser.console) this.console(chalkedMessage);
+        if (logsConfig.newUser.file) this.file(message);
         if (logsConfig.newUser.channel) this.discordChannel(logsConfig.newUser.channel, {
             embeds: [{
                 title: 'New user',
@@ -272,7 +272,7 @@ export class Logger {
                     text: user.id
                 }
             }]
-        })
+        });
     }
 
     /**
@@ -284,26 +284,26 @@ export class Logger {
 
         const additionalMessage = 
             type === 'NEW_GUILD' ? 'has been added to the db' : 
-            type === 'DELETE_GUILD' ? 'has been deleted' : 
-            type === 'RECOVER_GUILD' ? 'has been recovered' : ''
+                type === 'DELETE_GUILD' ? 'has been deleted' : 
+                    type === 'RECOVER_GUILD' ? 'has been recovered' : '';
         
         resolveDependency(Client).then(async client => {
 
-            const guild = await client.guilds.fetch(guildId).catch(() => null)
+            const guild = await client.guilds.fetch(guildId).catch(() => null);
 
-            const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`
+            const message = `(${type}) Guild ${guild ? `${guild.name} (${guildId})` : guildId} ${additionalMessage}`;
             const chalkedMessage = oneLine`
                 (${chalk.bold.white(type)})
                 ${chalk.dim.italic.gray('Guild')}
                 ${guild ? 
-                    `${chalk.bold.green(guild.name)} (${chalk.bold.blue(guildId)})`
-                    : guildId
-                }
+        `${chalk.bold.green(guild.name)} (${chalk.bold.blue(guildId)})`
+        : guildId
+}
                 ${chalk.dim.italic.gray(additionalMessage)}
-            `
+            `;
 
-            if (logsConfig.guild.console) this.console(chalkedMessage)
-            if (logsConfig.guild.file) this.file(message)
+            if (logsConfig.guild.console) this.console(chalkedMessage);
+            if (logsConfig.guild.file) this.file(message);
             if (logsConfig.guild.channel) this.discordChannel(logsConfig.guild.channel, {
                 embeds: [{
                     title: (type === 'NEW_GUILD' ? 'New guild' : type === 'DELETE_GUILD' ? 'Deleted guild' : 'Recovered guild'),
@@ -319,10 +319,10 @@ export class Logger {
                         url: guild?.iconURL() ?? ''
                     },
                     color: (type === 'NEW_GUILD' ? 0x02fd77 : type === 'DELETE_GUILD' ? 0xff0000 : 0xfffb00),
-                    timestamp: new Date().toISOString(),
+                    timestamp: new Date().toISOString()
                 }]
-            })
-        })
+            });
+        });
     }
 
     /**
@@ -333,34 +333,34 @@ export class Logger {
      */
     async logError(error: Error | any, type: 'Exception' | 'unhandledRejection', trace: StackFrame[] = parse(error.stack ?? '')) {
         
-        let message = '(ERROR)'
-        let embedMessage = ''
-        let embedTitle = ''
-        let chalkedMessage = `(${chalk.bold.white('ERROR')})`
+        let message = '(ERROR)';
+        let embedMessage = '';
+        let embedTitle = '';
+        let chalkedMessage = `(${chalk.bold.white('ERROR')})`;
 
         if (trace && trace[0]) {
-            message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`
-            embedMessage += `\`\`\`\n${trace.map((frame: StackFrame) => `\> ${frame.file}:${frame.lineNumber}`).join('\n')}\n\`\`\``
-            embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`
-            chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`
+            message += ` ${type === 'Exception' ? 'Exception' : 'Unhandled rejection'} : ${error.message}\n${trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n')}`;
+            embedMessage += `\`\`\`\n${trace.map((frame: StackFrame) => `\> ${frame.file}:${frame.lineNumber}`).join('\n')}\n\`\`\``;
+            embedTitle += `***${type === 'Exception' ? 'Exception' : 'Unhandled rejection'}* : ${error.message}**`;
+            chalkedMessage += ` ${chalk.dim.italic.gray(type === 'Exception' ? 'Exception' : 'Unhandled rejection')} : ${error.message}\n${chalk.dim.italic(trace.map((frame: StackFrame) => `\t> ${frame.file}:${frame.lineNumber}`).join('\n'))}`;
         } else {
             if (type === 'Exception') {
-                message += `An exception as occurred in a unknown file\n\t> ${error.message}`
-                embedMessage += `An exception as occurred in a unknown file\n${error.message}`
+                message += `An exception as occurred in a unknown file\n\t> ${error.message}`;
+                embedMessage += `An exception as occurred in a unknown file\n${error.message}`;
             } else {
-                message += `An unhandled rejection as occurred in a unknown file\n\t> ${error}`
-                embedMessage += `An unhandled rejection as occurred in a unknown file\n${error}`
+                message += `An unhandled rejection as occurred in a unknown file\n\t> ${error}`;
+                embedMessage += `An unhandled rejection as occurred in a unknown file\n${error}`;
             }
         }
 
         if (embedMessage.length >= 4096) {        
-            const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage)
-            console.log(paste?.getLink())
-            embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`
+            const paste = await this.pastebin.createPaste(embedTitle + "\n" + embedMessage);
+            console.log(paste?.getLink());
+            embedMessage = `[Pastebin of the error](https://rentry.co/${paste?.getLink()})`;
         }
 
-        if (logsConfig.error.console) this.console(chalkedMessage, 'error')
-        if (logsConfig.error.file) this.file(message, 'error')
+        if (logsConfig.error.console) this.console(chalkedMessage, 'error');
+        if (logsConfig.error.file) this.file(message, 'error');
         if (logsConfig.error.channel && process.env['NODE_ENV'] === 'production') this.discordChannel(logsConfig.error.channel, {
             embeds: [{
                 title: (embedTitle.length >= 256 ? (embedTitle.substring(0, 252) + "...") : embedTitle),
@@ -369,7 +369,7 @@ export class Logger {
                 timestamp: new Date().toISOString()
                 
             }]
-        }, 'error')
+        }, 'error');
     }
 
     // =================================
@@ -378,53 +378,53 @@ export class Logger {
 
     startSpinner(text: string) {
 
-        this.spinner.start(text)
+        this.spinner.start(text);
     }
 
     async logStartingConsole() {
 
         const symbol = '✓',
-              tab = '\u200B  \u200B'
+            tab = '\u200B  \u200B';
 
-        this.spinner.stop()
+        this.spinner.stop();
 
-        this.console(chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'), 'info', true)
+        this.console(chalk.dim.gray('\n━━━━━━━━━━ Started! ━━━━━━━━━━\n'), 'info', true);
 
         // commands
-        const slashCommands = MetadataStorage.instance.applicationCommandSlashes
-        const simpleCommands = MetadataStorage.instance.simpleCommands
+        const slashCommands = MetadataStorage.instance.applicationCommandSlashes;
+        const simpleCommands = MetadataStorage.instance.simpleCommands;
         const contextMenus = [
             ...MetadataStorage.instance.applicationCommandMessages,
             ...MetadataStorage.instance.applicationCommandUsers
-        ]
-        const commandsSum = slashCommands.length + simpleCommands.length + contextMenus.length
+        ];
+        const commandsSum = slashCommands.length + simpleCommands.length + contextMenus.length;
 
-        this.console(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`), 'info', true)
-        this.console(chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`), 'info', true)
+        this.console(chalk.blue(`${symbol} ${numberAlign(commandsSum)} ${chalk.bold('commands')} loaded`), 'info', true);
+        this.console(chalk.dim.gray(`${tab}┝──╾ ${numberAlign(slashCommands.length)} slash commands\n${tab}┝──╾ ${numberAlign(simpleCommands.length)} simple commands\n${tab}╰──╾ ${numberAlign(contextMenus.length)} context menus`), 'info', true);
 
         // events
-        const events = MetadataStorage.instance.events
+        const events = MetadataStorage.instance.events;
 
-        this.console(chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), 'info', true)
+        this.console(chalk.magenta(`${symbol} ${numberAlign(events.length)} ${chalk.bold('events')} loaded`), 'info', true);
 
         // entities
         const entities = fs.readdirSync(`${__dirname}/../entities`)
             .filter(entity => 
                 !entity.startsWith('index')
                 && !entity.startsWith('BaseEntity')
-            )
+            );
 
-        const pluginsEntitesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.entities).length, 0)
+        const pluginsEntitesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.entities).length, 0);
 
-        this.console(chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), 'info', true)
+        this.console(chalk.red(`${symbol} ${numberAlign(entities.length + pluginsEntitesCount)} ${chalk.bold('entities')} loaded`), 'info', true);
 
         // services
         const services = fs.readdirSync(`${__dirname}/../services`)
-            .filter(service => !service.startsWith('index'))
+            .filter(service => !service.startsWith('index'));
 
-        const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0)
+        const pluginsServicesCount = this.pluginsManager.plugins.reduce((acc, plugin) => acc + Object.values(plugin.services).length, 0);
         
-        this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true)
+        this.console(chalk.yellow(`${symbol} ${numberAlign(services.length + pluginsServicesCount)} ${chalk.bold('services')} loaded`), 'info', true);
 
         // api
         if (apiConfig.enabled) {
@@ -433,23 +433,23 @@ export class Logger {
 
                 const methodsName = Object
                     .getOwnPropertyNames(controller.prototype)
-                    .filter(methodName => methodName !== 'constructor')
+                    .filter(methodName => methodName !== 'constructor');
                 
-                return acc + methodsName.length
-            }, 0)
+                return acc + methodsName.length;
+            }, 0);
 
-            this.console(chalk.cyan(`${symbol} ${numberAlign(endpointsCount)} ${chalk.bold('api endpoints')} loaded`), 'info', true)
+            this.console(chalk.cyan(`${symbol} ${numberAlign(endpointsCount)} ${chalk.bold('api endpoints')} loaded`), 'info', true);
         }
 
         // scheduled jobs
-        const scheduledJobs = this.scheduler.jobs.size
+        const scheduledJobs = this.scheduler.jobs.size;
 
-        this.console(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), 'info', true)
+        this.console(chalk.green(`${symbol} ${numberAlign(scheduledJobs)} ${chalk.bold('scheduled jobs')} loaded`), 'info', true);
 
         // plugins
-        const pluginsCount = this.pluginsManager.plugins.length
+        const pluginsCount = this.pluginsManager.plugins.length;
 
-        this.console(chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), 'info', true)
+        this.console(chalk.hex('#47d188')(`${symbol} ${numberAlign(pluginsCount)} ${chalk.bold('plugin' + (pluginsCount > 1 ? 's':''))} loaded`), 'info', true);
     
         // connected
         if (apiConfig.enabled) {
@@ -467,7 +467,7 @@ export class Logger {
                     borderStyle: 'round',
                     dimBorder: true
                 }
-            )), 'info', true)
+            )), 'info', true);
         }
 
         this.console(chalk.hex('7289DA')(boxen(
@@ -483,6 +483,6 @@ export class Logger {
                 borderStyle: 'round',
                 dimBorder: true
             }
-        )), 'info', true)
+        )), 'info', true);
     }
 }

@@ -1,5 +1,5 @@
-import { Store as RxStore } from "rxeta"
-import { singleton } from "tsyringe"
+import { Store as RxStore } from "rxeta";
+import { singleton } from "tsyringe";
 
 interface State {
 
@@ -9,12 +9,12 @@ interface State {
 const initialState: State = {
     
     authorizedAPITokens: []
-}
+};
 
 @singleton()
 export class Store extends RxStore<State> {
 
     constructor() {
-        super(initialState)
+        super(initialState);
     }
 }

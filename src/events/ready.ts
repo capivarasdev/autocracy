@@ -1,12 +1,12 @@
-import { ActivityType } from "discord.js"
-import { Client } from "discordx"
-import { injectable } from "tsyringe"
+import { ActivityType } from "discord.js";
+import { Client } from "discordx";
+import { injectable } from "tsyringe";
 
-import { generalConfig, logsConfig } from "@config"
-import { Discord, Once, Schedule } from "@decorators"
-import { Data } from "@entities"
-import { Database, Logger, Scheduler } from "@services"
-import { resolveDependency, syncAllGuilds } from "@utils/functions"
+import { generalConfig, logsConfig } from "@config";
+import { Discord, Once, Schedule } from "@decorators";
+import { Data } from "@entities";
+import { Database, Logger, Scheduler } from "@services";
+import { resolveDependency, syncAllGuilds } from "@utils/functions";
 
 @Discord()
 @injectable()
@@ -18,13 +18,13 @@ export default class ReadyEvent {
         private scheduler: Scheduler
     ) {}
 
-    private activityIndex = 0
+    private activityIndex = 0;
 
     @Once('ready')
     async readyHandler([client]: [Client]) {
 
         // make sure all guilds are cached
-        await client.guilds.fetch()
+        await client.guilds.fetch();
 
         // synchronize applications commands with Discord
         await client.initApplicationCommands({
@@ -37,7 +37,7 @@ export default class ReadyEvent {
             guild: {
                 log: logsConfig.debug
             }
-        })
+        });
 
         // synchronize applications command permissions with Discord
         /**
@@ -49,48 +49,48 @@ export default class ReadyEvent {
         //await client.initApplicationPermissions(false)
 
         // change activity
-        await this.changeActivity()
+        await this.changeActivity();
 
         // update last startup time in the database
-        await this.db.get(Data).set('lastStartup', Date.now())
+        await this.db.get(Data).set('lastStartup', Date.now());
 
         // start scheduled jobs
-        this.scheduler.startAllJobs()
+        this.scheduler.startAllJobs();
 
         // log startup
-        await this.logger.logStartingConsole()
+        await this.logger.logStartingConsole();
 
         // synchronize guilds between discord and the database
-        await syncAllGuilds(client)
+        await syncAllGuilds(client);
     }
 
     @Schedule('*/15 * * * * *') // each 15 seconds
     async changeActivity() {
-        const ActivityTypeEnumString = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM", "COMPETING"] // DO NOT CHANGE THE ORDER
+        const ActivityTypeEnumString = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM", "COMPETING"]; // DO NOT CHANGE THE ORDER
 
-        const client = await resolveDependency(Client)
-        const activity = generalConfig.activities[this.activityIndex]
+        const client = await resolveDependency(Client);
+        const activity = generalConfig.activities[this.activityIndex];
         
-        activity.text = eval(`new String(\`${activity.text}\`).toString()`)
+        activity.text = eval(`new String(\`${activity.text}\`).toString()`);
             
         if (activity.type === 'STREAMING') {
             //streaming activity
             
-            client.user?.setStatus('online')
+            client.user?.setStatus('online');
             client.user?.setActivity(activity.text, {
                 'url': 'https://www.twitch.tv/discord',
                 'type': ActivityType.Streaming
-            })
+            });
         } else {
             //other activities
             
             client.user?.setActivity(activity.text, {
                 type: ActivityTypeEnumString.indexOf(activity.type)
-            })
+            });
         }
 
-        this.activityIndex++
-        if (this.activityIndex === generalConfig.activities.length) this.activityIndex = 0
+        this.activityIndex++;
+        if (this.activityIndex === generalConfig.activities.length) this.activityIndex = 0;
 
     }
 }

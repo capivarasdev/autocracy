@@ -1,7 +1,7 @@
-import { Entity, PrimaryKey, Property, EntityRepositoryType } from "@mikro-orm/core"
-import { EntityRepository } from "@mikro-orm/sqlite"
+import { Entity, PrimaryKey, Property, EntityRepositoryType } from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/sqlite";
 
-import { CustomBaseEntity } from "./BaseEntity"
+import { CustomBaseEntity } from "./BaseEntity";
 
 // ===========================================
 // ================= Entity ==================
@@ -10,19 +10,19 @@ import { CustomBaseEntity } from "./BaseEntity"
 @Entity({ customRepository: () => GuildRepository })
 export class Guild extends CustomBaseEntity {
 
-    [EntityRepositoryType]?: GuildRepository
+    [EntityRepositoryType]?: GuildRepository;
 
     @PrimaryKey({ autoincrement: false })
-    id!: string
+        id!: string;
 
     @Property({ nullable: true, type: 'string' })
-    prefix: string | null
+        prefix: string | null;
 
     @Property()
-    deleted: boolean = false
+        deleted: boolean = false;
 
     @Property()
-    lastInteract: Date = new Date()
+        lastInteract: Date = new Date();
 }
 
 // ===========================================
@@ -33,15 +33,15 @@ export class GuildRepository extends EntityRepository<Guild> {
 
     async updateLastInteract(guildId?: string): Promise<void> {
 
-        const guild = await this.findOne({ id: guildId })
+        const guild = await this.findOne({ id: guildId });
         
         if (guild) {
-            guild.lastInteract = new Date()
-            await this.flush()
+            guild.lastInteract = new Date();
+            await this.flush();
         }
     }
 
     async getActiveGuilds() {
-        return this.find({ deleted: false })
+        return this.find({ deleted: false });
     }
 }

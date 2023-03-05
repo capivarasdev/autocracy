@@ -1,4 +1,4 @@
-import { resolveDependency } from "@utils/functions"
+import { resolveDependency } from "@utils/functions";
 
 /**
  * Handle websocket events
@@ -12,18 +12,18 @@ import { resolveDependency } from "@utils/functions"
 export const WSOn = (event: string) => {
 
     return function (
-		target: any,
-		propertyKey: string,
-		descriptor: PropertyDescriptor
+        target: any,
+        propertyKey: string,
+        descriptor: PropertyDescriptor
     ) {
         import('@services').then(services => {
             resolveDependency(services.WebSocket).then(webSocket => {
                 webSocket.addEvent(event, async (socketId, ...args) => {
                     descriptor.value((eventName: string, ...args: any) => {
-                        webSocket.emit(socketId, eventName, ...args)
-                    }, ...args)
-                })
-            })
-        })
-    }
-}
+                        webSocket.emit(socketId, eventName, ...args);
+                    }, ...args);
+                });
+            });
+        });
+    };
+};

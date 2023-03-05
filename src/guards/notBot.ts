@@ -1,6 +1,6 @@
-import type { ArgsOf, GuardFunction } from "discordx"
+import type { ArgsOf, GuardFunction } from "discordx";
 
-import { resolveUser } from "@utils/functions"
+import { resolveUser } from "@utils/functions";
   
 /**
  * Prevent other bots to interact with this bot
@@ -11,7 +11,7 @@ export const NotBot: GuardFunction<
 > = async (arg, client, next) => {
 
     const parsedArg = arg instanceof Array ? arg[0] : arg,
-          user = resolveUser(parsedArg)
+        user = resolveUser(parsedArg);
 
-    if (!user?.bot) await next()
-}
+    if (!user?.bot) await next();
+};

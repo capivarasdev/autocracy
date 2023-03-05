@@ -1,7 +1,7 @@
-import type { SlashGroupOptions as SlashGroupOptionsX } from "discordx"
-import { ClassDecoratorEx, ClassMethodDecorator, SlashGroup as SlashGroupX, VerifyName } from "discordx"
+import type { SlashGroupOptions as SlashGroupOptionsX } from "discordx";
+import { ClassDecoratorEx, ClassMethodDecorator, SlashGroup as SlashGroupX, VerifyName } from "discordx";
 
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions";
 
 /**
  * Create slash group
@@ -17,7 +17,7 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@
  */
 export function SlashGroup(
     options: SlashGroupOptions
-): ClassDecoratorEx
+): ClassDecoratorEx;
 
 /**
  * Assign a group to a method or class
@@ -33,7 +33,7 @@ export function SlashGroup(
  */
 export function SlashGroup<TName extends string>(
     name: VerifyName<TName>
-): ClassMethodDecorator
+): ClassMethodDecorator;
   
 /**
  * Assign a group to a method or class
@@ -51,7 +51,7 @@ export function SlashGroup<TName extends string>(
 export function SlashGroup<TName extends string, TRoot extends string>(
     name: VerifyName<TName>,
     root: VerifyName<TRoot>
-): ClassMethodDecorator
+): ClassMethodDecorator;
   
 /**
  * Assign a group to a method or class
@@ -70,33 +70,33 @@ export function SlashGroup<TRoot extends string>(options: VerifyName<string> | S
 
     if (typeof options !== 'string') {
 
-        let localizationSource: TranslationsNestedPaths | null = null
-        if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths
+        let localizationSource: TranslationsNestedPaths | null = null;
+        if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths;
 
         if (localizationSource) {
 
             options = setOptionsLocalization({
                 target: 'description',
                 options,
-                localizationSource,
-            }) 
+                localizationSource
+            }); 
 
             options = setOptionsLocalization({
                 target: 'name',
                 options,
-                localizationSource,
-            })
+                localizationSource
+            });
         }
 
-        options = sanitizeLocales(options) 
+        options = sanitizeLocales(options); 
 
-        if (!options.description) options.description = 'No description provided'
+        if (!options.description) options.description = 'No description provided';
         
-        return SlashGroupX(options as SlashGroupOptionsX<VerifyName<string>, string, VerifyName<string>>)
+        return SlashGroupX(options as SlashGroupOptionsX<VerifyName<string>, string, VerifyName<string>>);
     
     } else {
-        if (root) return SlashGroupX(options, root)
-        else return SlashGroupX(options)
+        if (root) return SlashGroupX(options, root);
+        else return SlashGroupX(options);
     }
 }
 
