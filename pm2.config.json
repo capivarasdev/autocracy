@@ -1,9 +1,0 @@
-{
-    "apps": [
-        {
-            "name": "My Discord Bot",
-            "script": "npm",
-            "args" : "run build:start"
-        }
-    ]
-}
