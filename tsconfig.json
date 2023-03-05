@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "module": "commonjs",
+        "outDir": "./build",
+		"rootDir": ".",
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"skipLibCheck": false,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": "."
+    },
+    "include": ["src", "**/*.ts"],
+    "exclude": ["build", "node_modules", "tests"],
+    "paths": ["node_modules"]
+}
