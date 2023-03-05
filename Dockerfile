@@ -1,5 +1,5 @@
 ## build runner
-FROM node:16.17-buster-slim as build-runner
+FROM node:19.7-buster-slim as build-runner
 
 # Set temp directory
 WORKDIR /tmp/app
@@ -20,7 +20,7 @@ COPY tsconfig.json .
 RUN npm run build
 
 ## producation runner
-FROM node:16.17-buster-slim as prod-runner
+FROM node:19.7-buster-slim as prod-runner
 
 # set production mode
 ARG NODE_ENV=production
