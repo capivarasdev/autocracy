@@ -1,5 +1,5 @@
-import { Entity, PrimaryKey, Property, EntityRepositoryType } from "@mikro-orm/core"
-import { EntityRepository } from "@mikro-orm/sqlite"
+import { Entity, PrimaryKey, Property, EntityRepositoryType } from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/sqlite";
 
 // ===========================================
 // ================= Entity ==================
@@ -8,19 +8,19 @@ import { EntityRepository } from "@mikro-orm/sqlite"
 @Entity({ customRepository: () => PastebinRepository })
 export class Pastebin {
 
-    [EntityRepositoryType]?: PastebinRepository
+    [EntityRepositoryType]?: PastebinRepository;
 
     @PrimaryKey({ autoincrement: false })
-    id: string
+        id: string;
 
     @Property()
-    editCode: string
+        editCode: string;
 
     @Property()
-    lifetime: number = -1
+        lifetime: number = -1;
 
     @Property()
-    createdAt: Date = new Date()
+        createdAt: Date = new Date();
 }
 
 // ===========================================

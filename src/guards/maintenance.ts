@@ -1,14 +1,14 @@
-import { CommandInteraction, ContextMenuCommandInteraction } from "discord.js"
-import { ArgsOf, GuardFunction, SimpleCommandMessage } from "discordx"
+import { CommandInteraction, ContextMenuCommandInteraction } from "discord.js";
+import { ArgsOf, GuardFunction, SimpleCommandMessage } from "discordx";
 
-import { getLocaleFromInteraction, L } from "@i18n"
-import { isDev, isInMaintenance, replyToInteraction, resolveUser } from "@utils/functions"
+import { getLocaleFromInteraction, L } from "@i18n";
+import { isDev, isInMaintenance, replyToInteraction, resolveUser } from "@utils/functions";
 
 /**
  * Prevent interactions from running when bot is in maintenance
  */
 export const Maintenance: GuardFunction<
-    | ArgsOf<'messageCreate' | 'interactionCreate'>
+| ArgsOf<'messageCreate' | 'interactionCreate'>
 > = async (arg, client, next) => {
 
     if (
@@ -18,7 +18,7 @@ export const Maintenance: GuardFunction<
     ) {
 
         const user = resolveUser(arg),
-              maintenance = await isInMaintenance()
+            maintenance = await isInMaintenance();
 
         if (
             maintenance &&
@@ -27,11 +27,11 @@ export const Maintenance: GuardFunction<
         ) {
 
             const locale = getLocaleFromInteraction(arg),
-                  localizedReplyMessage = L[locale].GUARDS.MAINTENANCE()
+                localizedReplyMessage = L[locale].GUARDS.MAINTENANCE();
             
-            if (arg instanceof CommandInteraction || arg instanceof SimpleCommandMessage) await replyToInteraction(arg, localizedReplyMessage)
+            if (arg instanceof CommandInteraction || arg instanceof SimpleCommandMessage) await replyToInteraction(arg, localizedReplyMessage);
         }
-        else return next()
+        else return next();
     } 
-    else return next()
-}
+    else return next();
+};

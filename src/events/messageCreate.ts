@@ -1,10 +1,10 @@
-import { ArgsOf, Client } from "discordx"
+import { ArgsOf, Client } from "discordx";
 
-import { Discord, Guard, On } from "@decorators"
-import { Maintenance } from "@guards"
-import { executeEvalFromMessage, isDev } from "@utils/functions"
+import { Discord, Guard, On } from "@decorators";
+import { Maintenance } from "@guards";
+import { executeEvalFromMessage, isDev } from "@utils/functions";
 
-import { generalConfig } from "@config"
+import { generalConfig } from "@config";
 
 @Discord()
 export default class MessageCreateEvent {
@@ -16,7 +16,7 @@ export default class MessageCreateEvent {
     async messageCreateHandler(
         [message]: ArgsOf<"messageCreate">, 
         client: Client
-     ) {
+    ) {
 
         // eval command
         if (
@@ -26,10 +26,10 @@ export default class MessageCreateEvent {
                 || (generalConfig.eval.onlyOwner && message.author.id === generalConfig.ownerId)
             )
         ) {
-            executeEvalFromMessage(message)
+            executeEvalFromMessage(message);
         }
 
-        await client.executeCommand(message, { caseSensitive: false })
+        await client.executeCommand(message, { caseSensitive: false });
     }
 
 }

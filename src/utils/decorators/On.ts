@@ -1,4 +1,4 @@
-import { DOn, EventOptions, MetadataStorage, MethodDecoratorEx } from "discordx"
+import { DOn, EventOptions, MetadataStorage, MethodDecoratorEx } from "discordx";
 
 /**
  * Handle both discord and custom events with a defined handler
@@ -18,15 +18,15 @@ export const On = (event: string, options?: Omit<EventOptions, 'event'>): Method
         descriptor?: PropertyDescriptor
     ) {
 
-        const clazz = target as unknown as new () => unknown
+        const clazz = target as unknown as new () => unknown;
         const on = DOn.create({
             botIds: options?.botIds,
             event: event,
             once: false,
             rest: false,
-            priority: options?.priority,
-        }).decorate(clazz.constructor, key, descriptor?.value)
+            priority: options?.priority
+        }).decorate(clazz.constructor, key, descriptor?.value);
 
-        MetadataStorage.instance.addOn(on)
-    }
-}
+        MetadataStorage.instance.addOn(on);
+    };
+};

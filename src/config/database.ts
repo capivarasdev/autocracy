@@ -1,5 +1,5 @@
-import { Options } from "@mikro-orm/core"
-import { SqlHighlighter } from "@mikro-orm/sql-highlighter"
+import { Options } from "@mikro-orm/core";
+import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 
 export const databaseConfig: DatabaseConfigType = {
     
@@ -10,9 +10,9 @@ export const databaseConfig: DatabaseConfigType = {
         enabled: false,
         path: './database/backups/' // path to the backups folder (should be in the database/ folder)
     }
-}
+};
 
-export const databaseType = 'postgresql' as const // 'better-sqlite' | 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
+export const databaseType = 'postgresql' as const; // 'better-sqlite' | 'sqlite' | 'postgres' | 'mysql' | 'mariadb' | 'mongo'
 
 const envMikroORMConfig: { production: Options, development?: Options } = {
 
@@ -74,8 +74,8 @@ const envMikroORMConfig: { production: Options, development?: Options } = {
     development: {
 
     }
-}
+};
 
-if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production']
+if (!envMikroORMConfig['development'] || Object.keys(envMikroORMConfig['development']).length === 0) envMikroORMConfig['development'] = envMikroORMConfig['production'];
 
-export const mikroORMConfig = envMikroORMConfig
+export const mikroORMConfig = envMikroORMConfig;

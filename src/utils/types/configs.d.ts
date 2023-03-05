@@ -11,10 +11,10 @@ type GeneralConfigType = {
     automaticUploadImagesToImgur: boolean
 
     links: {
-		invite: string
-		supportServer: string
-		gitRemoteRepo: string
-	}
+        invite: string
+        supportServer: string
+        gitRemoteRepo: string
+    }
 
     devs: string[]
 
@@ -28,7 +28,7 @@ type GeneralConfigType = {
         type: "PLAYING" | "STREAMING" | "LISTENING" | "WATCHING" | "CUSTOM" | "COMPETING"
     }[]
 
-}
+};
 
 type DatabaseConfigType = {
     
@@ -38,7 +38,7 @@ type DatabaseConfigType = {
         enabled: boolean
         path: `${string}/`
     }
-}
+};
 
 type LogsConfigType = {
 
@@ -75,7 +75,7 @@ type LogsConfigType = {
         console: boolean
         channel: string | null
     }
-}
+};
 
 type StatsConfigType = {
 
@@ -83,15 +83,15 @@ type StatsConfigType = {
         
         exclude: InteractionsConstants[]
     }
-}
+};
 
 type APIConfigType = {
 
     enabled: boolean
     port: number
-}
+};
 
 type WebsocketConfigType = {
 
     enabled: boolean
-}
+};

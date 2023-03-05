@@ -1,1 +1,1 @@
-type state = { [key: string]: any }
+type state = { [key: string]: any };

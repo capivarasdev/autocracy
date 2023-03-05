@@ -1,11 +1,11 @@
-import { ArgsOf, Client, Guard, SimpleCommandMessage } from "discordx"
-import { injectable } from "tsyringe"
+import { ArgsOf, Client, Guard, SimpleCommandMessage } from "discordx";
+import { injectable } from "tsyringe";
 
-import { Discord, On } from "@decorators"
-import { Guild, User } from "@entities"
-import { Maintenance } from "@guards"
-import { Database, Logger, Stats } from "@services"
-import { getPrefixFromMessage, syncUser } from "@utils/functions"
+import { Discord, On } from "@decorators";
+import { Guild, User } from "@entities";
+import { Maintenance } from "@guards";
+import { Database, Logger, Stats } from "@services";
+import { getPrefixFromMessage, syncUser } from "@utils/functions";
 
 @Discord()
 @injectable()
@@ -25,14 +25,14 @@ export default class SimpleCommandCreateEvent {
     async simpleCommandCreateHandler([command]: [SimpleCommandMessage]) {
 
         // insert user in db if not exists
-        await syncUser(command.message.author)
+        await syncUser(command.message.author);
 
         // update last interaction time of both user and guild
-        await this.db.get(User).updateLastInteract(command.message.author.id)
-        await this.db.get(Guild).updateLastInteract(command.message.guild?.id)
+        await this.db.get(User).updateLastInteract(command.message.author.id);
+        await this.db.get(Guild).updateLastInteract(command.message.guild?.id);
 
-        await this.stats.registerSimpleCommand(command)
-        this.logger.logInteraction(command)
+        await this.stats.registerSimpleCommand(command);
+        this.logger.logInteraction(command);
     }
 
     // =============================
@@ -48,15 +48,15 @@ export default class SimpleCommandCreateEvent {
         client: Client
     ) {
        
-        const prefix = await getPrefixFromMessage(message)
-        const command = await client.parseCommand(prefix, message, false)
+        const prefix = await getPrefixFromMessage(message);
+        const command = await client.parseCommand(prefix, message, false);
 
         if (command && command instanceof SimpleCommandMessage) {
 
             /**
              * @param {SimpleCommandMessage} command
              */
-            client.emit('simpleCommandCreate', command)
+            client.emit('simpleCommandCreate', command);
         }
     } 
 }

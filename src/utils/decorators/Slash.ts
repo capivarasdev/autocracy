@@ -1,6 +1,6 @@
-import { ApplicationCommandOptions as ApplicationCommandOptionsX, Slash as SlashX, VerifyName } from "discordx"
+import { ApplicationCommandOptions as ApplicationCommandOptionsX, Slash as SlashX, VerifyName } from "discordx";
 
-import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions"
+import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@utils/functions";
 
 /**
  * Handle a slash command
@@ -13,32 +13,32 @@ import { constantPreserveDots, sanitizeLocales, setOptionsLocalization } from "@
  */
 export const Slash = (options?: ApplicationCommandOptions | string) => {
 
-    if (!options) options = { }
-    else if (typeof options === 'string') options = { name: options }
+    if (!options) options = { };
+    else if (typeof options === 'string') options = { name: options };
 
-    let localizationSource: TranslationsNestedPaths | null = null
+    let localizationSource: TranslationsNestedPaths | null = null;
 
-    if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths
-    else if (options.name) localizationSource = 'COMMANDS.' + constantPreserveDots(options.name) as TranslationsNestedPaths
+    if (options.localizationSource) localizationSource = constantPreserveDots(options.localizationSource) as TranslationsNestedPaths;
+    else if (options.name) localizationSource = 'COMMANDS.' + constantPreserveDots(options.name) as TranslationsNestedPaths;
 
     if (localizationSource) {
         
         options = setOptionsLocalization({
             target: 'description',
             options, 
-            localizationSource,
-        })
+            localizationSource
+        });
 
         options = setOptionsLocalization({
             target: 'name',
             options, 
-            localizationSource,
-        })
+            localizationSource
+        });
     } 
 
-    options = sanitizeLocales(options)
+    options = sanitizeLocales(options);
 
-    if (!options.description) options.description = 'No description provided'
+    if (!options.description) options.description = 'No description provided';
 
-    return SlashX(options as ApplicationCommandOptionsX<VerifyName<string>, string>)
-}
+    return SlashX(options as ApplicationCommandOptionsX<VerifyName<string>, string>);
+};

@@ -1,7 +1,7 @@
-import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core"
-import { EntityRepository } from "@mikro-orm/sqlite"
+import { Entity, EntityRepositoryType, PrimaryKey, Property } from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/sqlite";
 
-import { CustomBaseEntity } from "./BaseEntity"
+import { CustomBaseEntity } from "./BaseEntity";
 
 // ===========================================
 // ================= Entity ==================
@@ -10,31 +10,31 @@ import { CustomBaseEntity } from "./BaseEntity"
 @Entity({ customRepository: () => ImageRepository })
 export class Image extends CustomBaseEntity {
 
-    [EntityRepositoryType]?: ImageRepository
+    [EntityRepositoryType]?: ImageRepository;
 
     @PrimaryKey()
-    id: number
+        id: number;
 
     @Property()
-    fileName: string
+        fileName: string;
 
     @Property({ default: '' })
-    basePath?: string
+        basePath?: string;
 
     @Property()
-    url: string
+        url: string;
 
     @Property()
-    size: number
+        size: number;
 
     @Property()
-    tags: string[]
+        tags: string[];
 
     @Property()
-    hash: string
+        hash: string;
 
     @Property()
-    deleteHash: string
+        deleteHash: string;
 
 }
 
@@ -48,8 +48,8 @@ export class ImageRepository extends EntityRepository<Image> {
         
         const rows =  await this.find({
             $and: tags.map(tag => ({ tags: new RegExp(tag) }))
-        })
+        });
 
-        return explicit ? rows.filter(row => row.tags.length === tags.length) : rows
+        return explicit ? rows.filter(row => row.tags.length === tags.length) : rows;
     }
 }

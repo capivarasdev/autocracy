@@ -8,4 +8,4 @@ export const statsConfig: StatsConfigType = {
             'SELECT_MENU_INTERACTION'
         ]
     }
-}
+};

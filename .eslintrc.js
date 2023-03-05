@@ -23,5 +23,13 @@ module.exports = {
       "@typescript-eslint/indent": ["error", 4],
       "@typescript-eslint/semi": [2, "always"],
       "@typescript-eslint/comma-dangle": ["error", "never"]
-    }
+    },
+    overrides: [
+      {
+        "files": ["*.ts"],
+        "rules": {
+          "@typescript-eslint/no-non-null-assertion": "off"
+        }
+      }
+    ]
   };

@@ -1,7 +1,7 @@
-import { ArgsOf, Client } from "discordx"
+import { ArgsOf, Client } from "discordx";
 
-import { Discord, On } from "@decorators"
-import { syncGuild } from "@utils/functions"
+import { Discord, On } from "@decorators";
+import { syncGuild } from "@utils/functions";
 
 @Discord()
 export default class GuildCreateEvent {
@@ -12,6 +12,6 @@ export default class GuildCreateEvent {
         client: Client
     ) {
 
-        await syncGuild(newGuild.id, client)
+        await syncGuild(newGuild.id, client);
     }
 }

@@ -1,10 +1,10 @@
-import { Middleware } from "@tsed/common"
-import { InternalServerError } from "@tsed/exceptions"
-import axios from "axios"
+import { Middleware } from "@tsed/common";
+import { InternalServerError } from "@tsed/exceptions";
+import axios from "axios";
 
-import { apiConfig } from "@config"
+import { apiConfig } from "@config";
 
-const baseUrl = `http://localhost:${apiConfig.port}`
+const baseUrl = `http://localhost:${apiConfig.port}`;
 
 @Middleware()
 export class BotOnline {
@@ -15,9 +15,9 @@ export class BotOnline {
             params: {
                 logIgnore: true
             }
-        })
+        });
     
-        if (!data?.online) throw new InternalServerError('Bot is offline')
+        if (!data?.online) throw new InternalServerError('Bot is offline');
     }
 
 }

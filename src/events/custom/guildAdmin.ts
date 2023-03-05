@@ -1,10 +1,10 @@
-import { Collection, GuildMember, PermissionFlagsBits, Role } from "discord.js"
-import { ArgsOf, Client } from "discordx"
-import { injectable } from "tsyringe"
+import { Collection, GuildMember, PermissionFlagsBits, Role } from "discord.js";
+import { ArgsOf, Client } from "discordx";
+import { injectable } from "tsyringe";
 
-import { Discord, Guard, On } from "@decorators"
-import { Maintenance } from "@guards"
-import { Logger } from "@services"
+import { Discord, Guard, On } from "@decorators";
+import { Maintenance } from "@guards";
+import { Logger } from "@services";
 
 @Discord()
 @injectable()
@@ -24,11 +24,9 @@ export default class GuildAdminAddEvent {
     )
     async guildAdminAddHandler(
         member: GuildMember,
-        newAdminRoles: Collection<String, Role>,
-        client: Client
     ) {
         
-        this.logger.log(`${member.nickname} has been added as an admin`)
+        this.logger.log(`${member.nickname} has been added as an admin`);
     }
 
     @On('guildAdminDelete')
@@ -37,11 +35,9 @@ export default class GuildAdminAddEvent {
     )
     async guildAdminDeleteHandler(
         member: GuildMember,
-        oldAdminRoles: Collection<String, Role>,
-        client: Client
     ) {
         
-        this.logger.log(`${member.nickname} has been removed from admins`)
+        this.logger.log(`${member.nickname} has been removed from admins`);
     }
 
     // =============================
@@ -56,33 +52,33 @@ export default class GuildAdminAddEvent {
 
         if (oldMember.roles.cache.size < newMember.roles.cache.size) {
             
-            const newAdminRoles: Collection<String, Role> = 
+            const newAdminRoles: Collection<string, Role> = 
                 newMember.roles.cache.filter(role => 
                     !oldMember.roles.cache.has(role.id) 
                     && role.permissions.has(PermissionFlagsBits.Administrator)
-                )
-            if (newAdminRoles.size === 0) return
+                );
+            if (newAdminRoles.size === 0) return;
 
             /**
              * @param {GuildMember} member
              * @param {Collection<String, Role>} newAdminRoles 
              */
-            client.emit('guildAdminAdd', newMember, newAdminRoles)
+            client.emit('guildAdminAdd', newMember, newAdminRoles);
         }
         else if (oldMember.roles.cache.size > newMember.roles.cache.size) {
 
-            const oldAdminRoles: Collection<String, Role> = 
+            const oldAdminRoles: Collection<string, Role> = 
                 oldMember.roles.cache.filter(role => 
                     !newMember.roles.cache.has(role.id) 
                     && role.permissions.has(PermissionFlagsBits.Administrator)
-                )
-            if (oldAdminRoles.size === 0) return
+                );
+            if (oldAdminRoles.size === 0) return;
 
             /**
              * @param {GuildMember} member
              * @param {Collection<String, Role>} oldAdminRoles
              */
-            client.emit('guildAdminRemove', newMember, oldAdminRoles)            
+            client.emit('guildAdminRemove', newMember, oldAdminRoles);            
         }
     }
 }
