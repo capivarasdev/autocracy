@@ -46,20 +46,18 @@ services:
 
   # ==== PostgreSQL database ====
 
-  # database:
-  #   image: postgres
-  #   container_name: database
-  #   restart: always
-  #   volumes:
-  #     - ./data:/var/lib/postgresql:rw
-  #   environment:
-  #     - POSTGRES_DB=${DATABASE_NAME}
-  #     - POSTGRES_USER=${DATABASE_USER}
-  #     - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-  #   ports:
-  #     - 5432:5432
-  #   networks:
-  #     - dev
+  database:
+    image: postgres:14
+    container_name: database
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql:rw
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - dev
 
   # ==== phpMyAdmin ====
 

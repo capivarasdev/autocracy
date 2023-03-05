@@ -6,7 +6,7 @@ import { ExtractLocale, Maintenance, NotBot } from "@guards";
 export const clientConfig = {
 	
     // to only use global commands (use @Guild for specific guild command), comment this line
-    botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : undefined,
+    botGuilds: process.env.NODE_ENV === 'development' ? [process.env.TEST_GUILD_ID] : [],
 
     // discord intents
     intents: [
