@@ -3,19 +3,6 @@
   "version": "1.0.0",
   "description": "A custom Discord bot from capivarasdev",
   "main": "build/main.js",
-  "devDependencies": {
-    "@swc-node/register": "^1.6.2",
-    "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.37",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
-    "@typescript-eslint/parser": "^5.54.0",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.35.0",
-    "installoop": "^1.1.0",
-    "nodemon": "^2.0.21",
-    "rimraf": "^4.3.0",
-    "typescript": "^4.9.5"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node build/main.js",
     "build": "npm run build:clean && npm run build:compile && npm run build:plugins",
@@ -28,5 +15,34 @@
     "dev:compile": "swc src -w -d build",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
+  },
+  "devDependencies": {
+    "@swc-node/register": "^1.6.2",
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.37",
+    "@types/node": "^18.14.6",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.35.0",
+    "installoop": "^1.1.0",
+    "nodemon": "^2.0.21",
+    "prettier": "^2.8.4",
+    "prisma": "^4.11.0",
+    "rimraf": "^4.3.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@discordx/di": "^3.0.3",
+    "@discordx/importer": "^1.1.10",
+    "@discordx/pagination": "^3.4.1",
+    "@discordx/utilities": "^5.2.1",
+    "@prisma/client": "^4.11.0",
+    "discord-logs": "^2.2.1",
+    "discord.js": "^14.7.1",
+    "discordx": "^11.7.1",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.7.0"
   }
 }

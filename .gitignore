@@ -9,10 +9,7 @@ node_modules/
 build/
 
 # db
-*.sqlite
-objects/
-snapshot*.txt
-/data/
+/prisma/migrations/
 
 # logs
 logs/
