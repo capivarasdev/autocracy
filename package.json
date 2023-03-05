@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run build:clean && npm run build:compile && npm run build:plugins && npm run type:check",
     "build:start": "npm run build && npm run start",
-    "build:compile": "swc src -d build -D && rimraf build/plugins/**/node_modules/",
+    "build:compile": "swc src -d build -D && rimraf --glob build/plugins/**/node_modules/",
     "build:clean": "rimraf build/",
     "build:plugins": "installoop --rootDir=./build/plugins",
     "start": "cross-env NODE_ENV=production node build/main.js",
