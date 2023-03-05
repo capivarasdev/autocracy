@@ -42,6 +42,8 @@
     "discord-logs": "^2.2.1",
     "discord.js": "^14.7.1",
     "discordx": "^11.7.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.7.0"
   }

@@ -4,9 +4,13 @@ module.exports = {
         project: 'tsconfig.json',
         sourceType: 'module'
     },
-    plugins: ['@typescript-eslint/eslint-plugin'],
+    plugins: [
+        '@typescript-eslint/eslint-plugin',
+        'prettier'
+    ],
     extends: [
-        'plugin:@typescript-eslint/recommended'
+        'plugin:@typescript-eslint/recommended',
+        'prettier'
     ],
     root: true,
     env: {
@@ -22,7 +26,8 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         "@typescript-eslint/indent": ["error", 4],
         "@typescript-eslint/semi": [2, "always"],
-        "@typescript-eslint/comma-dangle": ["error", "never"]
+        "@typescript-eslint/comma-dangle": ["error", "never"],
+        'prettier/prettier': 'error'
     },
     overrides: [
         {

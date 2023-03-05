@@ -1,4 +1,4 @@
-import { GatewayIntentBits, Partials } from "discord.js";
+import { GatewayIntentBits, Partials } from 'discord.js';
 
 export const clientConfig = {
     botGuilds: undefined,
@@ -14,13 +14,11 @@ export const clientConfig = {
         GatewayIntentBits.MessageContent
     ],
 
-    partials: [
-        Partials.Channel
-    ],
+    partials: [Partials.Channel],
 
     silent: false,
 
     simpleCommand: {
-        prefix: "!"
+        prefix: '!'
     }
 };
