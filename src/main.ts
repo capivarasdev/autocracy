@@ -7,12 +7,16 @@ import { clientConfig } from './client';
 import { Client, DIService, tsyringeDependencyRegistryEngine } from 'discordx';
 import discordLogs from 'discord-logs';
 import { importx } from '@discordx/importer';
+import { Pastebin } from '@services';
 
 async function run() {
     // Initiate the database client.
     container.register<PrismaClient>('PrismaClient', {
         useValue: new PrismaClient()
     });
+
+    // Initiate the pastebin service.
+    container.resolve(Pastebin);
 
     // Set tsyringe injector for discordx.
     DIService.engine = tsyringeDependencyRegistryEngine.setInjector(container);

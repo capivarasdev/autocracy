@@ -11,6 +11,9 @@
         "baseUrl": "./",
         "transform": {
             "decoratorMetadata": true
+        },
+        "paths": {
+            "@services": ["src/services"]
         }
     },
     "exclude": [

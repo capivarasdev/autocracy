@@ -14,7 +14,10 @@
 		"esModuleInterop": true,
 		"skipLibCheck": false,
 		"forceConsistentCasingInFileNames": true,
-		"baseUrl": "."
+		"baseUrl": ".",
+		"paths": {
+			"@services": ["src/services"]
+		}
     },
     "include": ["src", "**/*.ts"],
     "exclude": ["build", "node_modules", "tests"],

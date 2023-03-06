@@ -24,7 +24,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
-        "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/indent": 'off',
         "@typescript-eslint/semi": [2, "always"],
         "@typescript-eslint/comma-dangle": ["error", "never"],
         'prettier/prettier': 'error'

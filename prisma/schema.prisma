@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,7 +8,14 @@ datasource db {
 }
 
 model User {
-  id      Int     @id @default(autoincrement())
-  name    String? @db.VarChar(255)
-  email   String  @unique @db.VarChar(255)
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(255)
+  email String  @unique @db.VarChar(255)
+}
+
+model Pastebin {
+  id        String   @id
+  editCode  String
+  lifetime  BigInt
+  createdAt DateTime @default(now())
 }

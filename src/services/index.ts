@@ -1,0 +1,1 @@
+export { Pastebin } from './Pastebin';

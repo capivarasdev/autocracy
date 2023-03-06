@@ -39,12 +39,14 @@
     "@discordx/pagination": "^3.4.1",
     "@discordx/utilities": "^5.2.1",
     "@prisma/client": "^4.11.0",
+    "dayjs": "^1.11.7",
     "discord-logs": "^2.2.1",
     "discord.js": "^14.7.1",
     "discordx": "^11.7.1",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "reflect-metadata": "^0.1.13",
+    "rentry-pastebin": "^1.3.0",
     "tsyringe": "^4.7.0"
   }
 }
