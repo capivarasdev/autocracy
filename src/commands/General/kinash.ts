@@ -19,6 +19,6 @@ export default class KinashCommand {
             fetchReply: true
         })) as Message;
 
-        await message.edit("https://media.discordapp.net/attachments/1034597308563730543/1063676519492370502/1673670635186.gif");
+        await message.edit("https://tenor.com/view/mario-sonic-kiss-make-out-make-love-gif-17857994");
     }
 }
